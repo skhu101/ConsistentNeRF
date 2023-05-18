@@ -8,13 +8,13 @@
     Kaiyu Li<sup>1</sup>&emsp;
     Longhui Yu<sup>3</sup>&emsp;
     Lanqing Hong<sup>4</sup>&emsp;
-    Tianyang Hu<sup>4</sup>&emsp;
+    Tianyang Hu<sup>4</sup>&emsp; <br>
     Zhenguo	Li✉<sup>4</sup>&emsp;
     Gim Hee	Lee✉<sup>5</sup>&emsp;
     Ziwei Liu✉<sup>1</sup>&emsp;
 </div>
 <div>
-    <sup>1</sup>S-Lab, Nanyang Technological University&emsp; <sup>2</sup>University of Oxford&emsp;
+    <sup>1</sup>S-Lab, Nanyang Technological University&emsp; <sup>2</sup>University of Oxford&emsp; <br>
     <sup>3</sup>Peking University&emsp; <sup>4</sup>Huawei Noah’s Ark Lab&emsp; <sup>5</sup>National University of Singapore
 </div> 
 <div>
