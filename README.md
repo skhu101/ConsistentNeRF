@@ -21,4 +21,4 @@
     <sup>✉</sup>Corresponding Author
 </div>
 
-### [Paper](https://arxiv.org/abs/) | [Video](https://youtu.be/7Ft1S91HxQg) | [Project Page](https://skhu101.github.io/ConsistentNeRF/)
+### [Paper](https://arxiv.org/pdf/2305.11031.pdf) | [Project Page](https://skhu101.github.io/ConsistentNeRF/)
