@@ -11,39 +11,38 @@ Next, activate the environment:
 
 ## Data
 
-在当前目录下（readme这一级目录下）建立路径
+Create data path:
 ```mkdir data```
-将备份的regnerf中的同名data文件夹复制过来。data文件夹下包含以下数据：
+And then copy the 'data' folder from our backup data here(link required), which contains：
 
-1. DTU,LLFF,NeRF 原本数据集
-2. 基于DTU,LLFF,NeRF数据集与pair.npy中定义的前三个train view计算得到的MiDaS深度信息，文件名有midas前缀
-3. 使用mvsnerf模型在DTU,LLFF,NeRF数据集上训练后预测的深度信息，文件名有nerf前缀
+1. original dataset of DTU,LLFF and NeRF 
+2. MiDaS Depth of the first three views for each scene in DTU,LLFF and NeRF, as defined in 'pairs.npy', file names begin with 'midas'.
+3. The predicted depth of DTU,LLFF and NeRF from a pretrained MVSNeRF model,file names begin with 'nerf'.
 
 ## Running the code
 
 ### Training an new model
 
-1.训练Vanila NeRF:
+1.Train Vanila NeRF:
 
 ```CUDA_VISIBLE_DEVICES=0 python run_nerf_view.py --config configs_3view/hotdog.txt --expname a_hotdog3_mask```
 
-2.训练ConsistentNeRF(ours),即加入hardmask与MiDaS,分别代表multi-view consistency 与 single-view consistency:
+2.Train ConsistentNeRF(ours),which adds both hardmask and MiDaS depth for supervision, accounting for multi-view consistency and single-view consistency respectively:
 
 ```CUDA_VISIBLE_DEVICES=4 python run_nerf_view.py --config configs_3view/hotdog.txt --expname a_hotdog3_mask --hardmask --with_depth_loss```
 
-注：当前我们的方法只适用于NeRF Synthetic数据集，在其他数据集上跑会出错。
+Note: Currently our method only runs on NeRF Synthetic dataset, code for LLFF and DTU dataset will be updated soon.
 
 ### Rendering and Evaluating model
 
-在前一步将模型训练好后可以使用以下命令评估,渲染所有test view图像并计算相应metric：
+After you have trained the model successfully, use the following commands to evaluate and render test results for each scene:：
 
 ```CUDA_VISIBLE_DEVICES=4 python run_nerf_view.py --config configs_3view/hotdog.txt --expname vanila_nerf_hotdog --i_testset=1```
 
-注：--expname后接训练时存放的模型路径, --expname xxx 对应 ./logs/xxx/
-
-如果需要渲染路径生成演示视频,则使用：
+### Generate Videos
+If you need to render a video, run: 
 
 ```CUDA_VISIBLE_DEVICES=4 python run_nerf_view.py --config configs_3view/hotdog.txt --expname vanila_nerf_hotdog --render_only```
 
-完成后会得到生成视频所需要的所有图片（你模型路径下的path_renders文件夹），然后请根据video_generation.py中的注释更改该脚本，然后运行该脚本生成视频。
+And you will get all the frames under 'path_renders/', then please refer to 'video_generation.py' for final video generation.
 
