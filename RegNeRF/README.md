@@ -34,55 +34,53 @@ Note:
 
 ```pip install protobuf==3.20.1```
 
-4. 找到备份的regnerf，将configs/pairs.npy拷贝到当前目录相同路径下，或者将mvsnerf中的pairs.th文件存成npy格式，保存到该路径下。
+4. Download backup data at (link required)，extract it and copy 'configs/pairs.npy' to current directory under same path，or save [pairs.th](https://github.com/apchenstu/mvsnerf/tree/main/configs) to .npy format and use it instead.
 
 ## Data
 
-在当前目录下（readme这一级目录下）建立路径
+Create data path:
 ```mkdir data```
-将备份的regnerf中的同名data文件夹复制过来。data文件夹下包含以下数据：
+And then copy the 'data' folder from our backup data here, which contains：
 
-1. DTU,LLFF,NeRF 原本数据集
-2. 基于DTU,LLFF,NeRF数据集与pair.npy中定义的前三个train view计算得到的MiDaS深度信息，文件名有midas前缀
-3. 使用mvsnerf模型在DTU,LLFF,NeRF数据集上训练后预测的深度信息，文件名有nerf前缀
+1. original dataset of DTU,LLFF and NeRF 
+2. MiDaS Depth of the first three views for each scene in DTU,LLFF and NeRF, as defined in 'pairs.npy', file names begin with 'midas'.
+3. The predicted depth of DTU,LLFF and NeRF from a pretrained MVSNeRF model,file names begin with 'nerf'.
 
 ## Running the code
 
 ### Training an new model
 
-1.训练MipNeRF:
+1.Train MipNeRF:
 
 ```CUDA_VISIBLE_DEVICES=0 python train.py --gin_configs configs/mipnerf3/dtu/scan21_3.gin```
 
-2.训练RegNeRF:
+2.Train RegNeRF:
 
 ```CUDA_VISIBLE_DEVICES=0 python train.py --gin_configs configs/regnerf3/llff/leaves3.gin```
 
-3.加入hardmask(multiview consistency) 和/或 midas(singleview consistency):
+3.Add hardmask (for multi-view consistency) and/or MiDaS(for single-view consistency):
 
-打开internal/config.py文件，其中:
+Please check the following parameters within internal/config.py:
 
-```compute_mono_depth_metrics: bool = True``` 该参数为True则使用MiDaS，无论是训练MipNeRF还是RegNeRF
+```compute_mono_depth_metrics: bool = True``` If True, apply single-view consistency loss，for either MipNeRF or RegNeRF
 
-```use_hardmask: bool = True``` 该参数为True则对于LLFF数据集和NeRF数据集使用mvsnerf的depth计算hardmask，反之则不计算hardmask
+```use_hardmask: bool = True``` If True, use MvSNeRF depth to calculate hardmask on NeRF dataset and LLFF dataset，or else disable hardmask.
 
-```use_nerf_depth: bool = True``` 该参数为True则对于DTU数据集使用mvsnerf的depth计算hardmask，反之则使用gt计算hardmask
+```use_nerf_depth: bool = True``` If True, use MvSNeRF depth to calculate hardmask on DTU dataset，or else use Ground Truth to calculate hardmask.
 
-```compute_depth_metrics: bool = False```该参数为True则计算深度loss，同时如果通过前两个参数加了hardmask则计算hardmask对应像素的深度loss，如果没有hardmask则计算全部的深度loss。
-
-另外可参考jobs文件夹下 task1.sh - task4.sh
+```compute_depth_metrics: bool = False```If True, calculate depth loss on the whole image, and if hardmask is enabled, only calculate depth loss on pixels within the hardmask.
+For more reference, please check jobs/task1.sh - task4.sh
 
 ### Rendering and Evaluating model
 
-在前一步将模型训练好后可以使用以下命令评估与渲染：
+After you have trained the model successfully, use the following commands to evaluate and render test results for each scene:
 
 ```CUDA_VISIBLE_DEVICES=0 python eval.py --gin_configs configs/regnerf3/llff/leaves3.gin```
 
-以上命令将自动渲染所有test view，并且计算相应metric. 如需计算某个数据集所有场景的平均metric，则参见calculate_metrics脚本。 
-
-如果需要渲染路径生成演示视频，则需要在internal/config.py文件更改以下参数为True：
-
-```render_path: bool = True```当前因为刚做了生成视频，所以现在是True的状态。
+If you want to calculate the metric on average of all scenes，please refer to 'calculate_metrics.py'.
 
 ### Generate Videos
-在上一步如果你将render_path置为True并运行eval.py，你会得到生成视频所需要的所有图片（你模型路径下的path_renders文件夹），然后请根据video_generation.py中的注释更改该脚本，然后运行该脚本生成视频。
+If you need to render a video, please change the following parameter within 'internal/config.py'：
+
+```render_path: bool = True```
+Set 'render_path' to True and run 'eval.py' again, you will get all the frames under 'path_renders/', then please refer to 'video_generation.py' for final video generation.
