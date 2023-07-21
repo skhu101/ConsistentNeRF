@@ -6,7 +6,6 @@ pip install --upgrade jaxlib==0.1.68+cuda110 -f https://storage.googleapis.com/j
 pip install lpips
 pip install ipdb
 
-cuda报错问题: conda install cudatoolkit=11.0 容易装失败，多试几次
-jax.random报错问题: https://github.com/kingoflolz/mesh-transformer-jax/issues/221
+To fix jax.random error: https://github.com/kingoflolz/mesh-transformer-jax/issues/221
                    pip3 install chex==0.1.2
-protobuf报错问题: pip install protobuf==3.20.1
+To fixprotobuf error: pip install protobuf==3.20.1
