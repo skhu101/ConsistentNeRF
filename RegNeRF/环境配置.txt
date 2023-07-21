@@ -1,0 +1,12 @@
+conda create -n regnerf python=3.7
+conda activate regnerf
+pip install -r requirements.txt
+pip install --upgrade jaxlib==0.1.68+cuda110 -f https://storage.googleapis.com/jax-releases/jax_cuda_releases.html
+
+pip install lpips
+pip install ipdb
+
+cuda报错问题: conda install cudatoolkit=11.0 容易装失败，多试几次
+jax.random报错问题: https://github.com/kingoflolz/mesh-transformer-jax/issues/221
+                   pip3 install chex==0.1.2
+protobuf报错问题: pip install protobuf==3.20.1

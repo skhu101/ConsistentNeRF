@@ -1,0 +1,16 @@
+# Blender
+Config.data_dir = "data/nerf_synthetic/"
+Config.checkpoint_dir = "out/nerf/nerf3_drums_bl"
+Config.dataset_loader = 'blender'
+Config.blender_scene = 'drums'
+Config.white_background = True
+Config.factor = 0
+Config.render_factor = 0
+Config.near = 2.0
+Config.far = 6.0
+MLP.density_noise = 1.
+
+Config.n_input_views = 3
+
+# For BL
+Config.load_random_rays = False
