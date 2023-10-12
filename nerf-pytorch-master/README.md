@@ -3,11 +3,11 @@
 
 We recommend to use [Anaconda](https://www.anaconda.com/products/individual) to set up the environment: 
 
-```conda env create -f pytorch1.8_skhu.yaml```
+```conda env create -f environment.yml```
 
 Next, activate the environment:
 
-```conda activate pytorch1.8_skhu```
+```conda activate nerf```
 
 ## Data
 
