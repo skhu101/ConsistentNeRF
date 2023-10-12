@@ -1,0 +1,21 @@
+# To run: conda env create -f environment.yml
+name: nerf
+channels:
+    - conda-forge
+dependencies:
+    - python=3.7
+    - cudatoolkit=10.0
+    - tensorflow-gpu==1.15
+    - numpy
+    - matplotlib
+    - imageio
+    - imageio-ffmpeg
+    - configargparse
+    - imagemagick
+    - pip:
+        - ipdb
+        - tensorboardX
+        - pytorch_msssim
+        - lpips
+        - scipy
+
